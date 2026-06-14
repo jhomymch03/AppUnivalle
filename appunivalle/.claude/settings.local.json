@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//j/QUINTO SEMESTRE/TRABAJO EXTRAS/UniValle/backend/**)",
+      "Read(//j/QUINTO SEMESTRE/TRABAJO EXTRAS/UniValle/frontend/**)",
+      "Bash(find android *)",
+      "Bash(cat android/app/src/main/AndroidManifest.xml)",
+      "Bash(flutter analyze *)",
+      "Bash(flutter test *)",
+      "Bash(ls -la scripts/)",
+      "Bash(ls -la init-db/)",
+      "Bash(flutter devices *)"
+    ]
+  }
+}
