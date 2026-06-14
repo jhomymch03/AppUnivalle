@@ -57,13 +57,38 @@ flutter pub get
 ---
 
 ## 4. Encender el backend
-- Corre **tu** backend en tu compu.
-- Importante: que escuche en una **IP accesible** desde el teléfono (no solo
-  `localhost`/`127.0.0.1`).
-- Anota la URL:
-  - Si el teléfono está en la **misma Wi-Fi** que tu PC →
-    `http://TU-IP-LOCAL:8000` (ej. `http://192.168.0.15:8000`).
-  - Si usas un **túnel** (Cloudflare/ngrok) → la URL `https://...` que te dé.
+Corre **tu** backend en tu compu. Lo **clave** es que escuche en `0.0.0.0` (todas
+las interfaces), **no** en `127.0.0.1`/`localhost`, para que el teléfono pueda
+alcanzarlo. En FastAPI se levanta con uvicorn así:
+```
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+> Adapta `app.main:app` al punto de entrada real de tu backend. Lo único
+> imprescindible es el `--host 0.0.0.0`.
+
+### Cómo logra el teléfono alcanzar tu backend (elige UNA opción)
+No necesitas las dos; con una basta.
+
+**Opción A — Misma red Wi-Fi (LAN), sin instalar nada extra**
+- El teléfono y tu PC deben estar en la **misma red Wi-Fi**.
+- Averigua la IP local de tu PC: en Windows abre una terminal y corre `ipconfig`,
+  busca **"Dirección IPv4"** (algo como `192.168.0.15`).
+- La URL será: `http://TU-IP-LOCAL:8000` (ej. `http://192.168.0.15:8000`).
+- Si no conecta, puede ser el **Firewall de Windows**: permite el puerto 8000 o
+  la app de Python cuando te lo pregunte.
+
+**Opción B — Túnel (Cloudflare o ngrok), NO requiere el mismo Wi-Fi**
+- Expone tu backend local a una URL pública `https://...`; funciona desde
+  cualquier red (incluso datos móviles). Es la opción más flexible.
+- Con tu backend ya corriendo en el puerto 8000, en otra terminal:
+  - Cloudflare: `cloudflared tunnel --url http://localhost:8000`
+  - o ngrok: `ngrok http 8000`
+- Copia la URL `https://...` que te muestre. (Ojo: con el túnel rápido de
+  Cloudflare la URL **cambia cada vez** que lo reinicias.)
+
+> Nota: la URL que pondrás en la app (paso 6) es solo la **base**
+> (`http://192.168.0.15:8000` o `https://...`). **No** agregues `/api/v1`: la app
+> lo añade sola.
 
 ---
 
